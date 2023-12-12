@@ -59,7 +59,10 @@ class TestOntology < LinkedData::TestOntologyCommon
       pullLocation: RDF::IRI.new("http://localhost:#{@@port}/"),
       submissionId: o.next_submission_id,
       contact: [@contact],
-      released: DateTime.now - 5
+      released: DateTime.now - 5,
+      description: 'description example',
+      URI: RDF::URI.new('https://test.com'),
+      status: 'beta'
     })
     os.save
   end
@@ -308,11 +311,11 @@ class TestOntology < LinkedData::TestOntologyCommon
                                      })
     assert pc.valid?
     pc.save
-    assert_equal true, pc.exist?(reload=true)
+    assert_equal true, pc.exist?
 
     assert n.valid?
     n.save()
-    assert_equal true, n.exist?(reload=true)
+    assert_equal true, n.exist?
 
     review_params = {
         :creator => u,
@@ -329,12 +332,12 @@ class TestOntology < LinkedData::TestOntologyCommon
 
     r = LinkedData::Models::Review.new(review_params)
     r.save()
-    assert_equal true, r.exist?(reload=true)
+    assert_equal true, r.exist?
 
     o1.delete()
-    assert_equal false, n.exist?(reload=true)
-    assert_equal false, r.exist?(reload=true)
-    assert_equal false, o1.exist?(reload=true)
+    assert_equal false, n.exist?
+    assert_equal false, r.exist?
+    assert_equal false, o1.exist?
     o2.delete()
   end
 
@@ -423,25 +426,25 @@ class TestOntology < LinkedData::TestOntologyCommon
   # A test to benchmark the time taken by bring_remaining (query not optimized, can take a long time if a lot of value in the list attributes)
   def test_ontology_bring_remaining
     # Creating the users
-    user1 = LinkedData::Models::User.new(:username => "user1", :email => "some@email.org" )
+    user1 = LinkedData::Models::User.new(:username => "user1", :email => "some1@email.org" )
     user1.passwordHash = "some random pass hash"
     user1.save
-    user2 = LinkedData::Models::User.new(:username => "user2", :email => "some@email.org" )
+    user2 = LinkedData::Models::User.new(:username => "user2", :email => "some2@email.org" )
     user2.passwordHash = "some random pass hash"
     user2.save
-    user3 = LinkedData::Models::User.new(:username => "user3", :email => "some@email.org" )
+    user3 = LinkedData::Models::User.new(:username => "user3", :email => "some3@email.org" )
     user3.passwordHash = "some random pass hash"
     user3.save
-    user4 = LinkedData::Models::User.new(:username => "user4", :email => "some@email.org" )
+    user4 = LinkedData::Models::User.new(:username => "user4", :email => "some4@email.org" )
     user4.passwordHash = "some random pass hash"
     user4.save
-    user5 = LinkedData::Models::User.new(:username => "user5", :email => "some@email.org" )
+    user5 = LinkedData::Models::User.new(:username => "user5", :email => "some5@email.org" )
     user5.passwordHash = "some random pass hash"
     user5.save
-    user6 = LinkedData::Models::User.new(:username => "user6", :email => "some@email.org" )
+    user6 = LinkedData::Models::User.new(:username => "user6", :email => "some6@email.org" )
     user6.passwordHash = "some random pass hash"
     user6.save
-    user7 = LinkedData::Models::User.new(:username => "user7", :email => "some@email.org" )
+    user7 = LinkedData::Models::User.new(:username => "user7", :email => "some7@email.org" )
     user7.passwordHash = "some random pass hash"
     user7.save
 

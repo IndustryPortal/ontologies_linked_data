@@ -210,7 +210,7 @@ class TestMappingBulkLoad < LinkedData::TestOntologyCommon
     user_name = 'test_mappings_user'
     user = LinkedData::Models::User.where(username: user_name).include(:username).first
     if user.nil?
-      user = LinkedData::Models::User.new(username: user_name, email: 'some@email.org')
+      user = LinkedData::Models::User.new(username: user_name, email: "some#{rand}@email.org")
       user.passwordHash = 'some random pass hash'
       user.save
     end
@@ -221,7 +221,7 @@ class TestMappingBulkLoad < LinkedData::TestOntologyCommon
     LinkedData::Mappings.create_mapping_counts(Logger.new(TestLogFile.new))
     ct = LinkedData::Models::MappingCount.where.all.length
     assert ct > 2
-    o = LinkedData::Models::Ontology.where(submissions: { URI: ontology_id })
+    o = LinkedData::Models::Ontology.where(submissions: { URI: RDF::URI.new(ontology_id) })
                                     .include(submissions: %i[submissionId submissionStatus])
                                     .first
     latest_sub = o.nil? ? nil : o.latest_submission
